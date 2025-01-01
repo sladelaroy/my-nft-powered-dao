@@ -1,0 +1,134 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "available",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "purchase",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "tokens",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"available(uint256)": {
+					"details": "available() checks whether the given tokenId has already been sold or not",
+					"params": {
+						"_tokenId": "- the tokenId to check for"
+					}
+				},
+				"getPrice()": {
+					"details": "getPrice() returns the price of one NFT"
+				},
+				"purchase(uint256)": {
+					"details": "purchase() accepts ETH and marks the owner of the given tokenId as the caller address",
+					"params": {
+						"_tokenId": "- the fake NFT token Id to purchase"
+					}
+				}
+			},
+			"stateVariables": {
+				"nftPrice": {
+					"details": "Set the purchase price for each Fake NFT"
+				},
+				"tokens": {
+					"details": "Maintain a mapping of Fake TokenID to Owner addresses"
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"NFT powered DAO/DemoNFTMarketplace.sol": "DemoNFTMarketplace"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"NFT powered DAO/DemoNFTMarketplace.sol": {
+			"keccak256": "0x3c5ebed87b95c8726d3ba0836436b357d64a697eae13616963bc6052721bb4dc",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://16ea949e999c6130c650412f00b9bc99c191acc4465f004be5576e05068e1c97",
+				"dweb:/ipfs/QmcC4f6dmjCbx2CiruVGn6xoBh4hDiXXwvutoRwX1ZEuMx"
+			]
+		}
+	},
+	"version": 1
+}
