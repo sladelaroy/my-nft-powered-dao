@@ -5169,7 +5169,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-01-01T17:28:44.350Z",
+  "updatedAt": "2025-01-03T12:56:40.277Z",
   "devdoc": {
     "details": "This implements an optional extension of {ERC721} defined in the ERC that adds enumerability of all the token ids in the contract as well as all token ids owned by each account. CAUTION: {ERC721} extensions that implement custom `balanceOf` logic, such as {ERC721Consecutive}, interfere with enumerability and should not be used together with {ERC721Enumerable}.",
     "errors": {

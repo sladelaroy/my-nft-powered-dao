@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import './App.css';
-import MemersDAO from './contracts/MemersDAO.json'; // Adjust the path as needed
+import MemersDAO from './contracts/MemersDAO.json';
+import MemersNFT from './contracts/MemersNft.json';
 
 function App() {
   const [account, setAccount] = useState('');
-  const [contract, setContract] = useState(null);
+  const [daoContract, setDaoContract] = useState(null);
+  const [nftContract, setNftContract] = useState(null);
   const [web3, setWeb3] = useState(null);
   const [numProposals, setNumProposals] = useState(0);
   const [proposals, setProposals] = useState([]);
@@ -23,17 +25,21 @@ function App() {
           setAccount(accounts[0]);
 
           const networkId = await web3.eth.net.getId();
-          const networkData = MemersDAO.networks[networkId];
-          if (networkData) {
-            const contract = new web3.eth.Contract(MemersDAO.abi, networkData.address);
-            setContract(contract);
+          const daoNetworkData = MemersDAO.networks[networkId];
+          const nftNetworkData = MemersNFT.networks[networkId];
+          if (daoNetworkData && nftNetworkData) {
+            const daoContract = new web3.eth.Contract(MemersDAO.abi, daoNetworkData.address);
+            setDaoContract(daoContract);
 
-            const numProposals = await contract.methods.numProposals().call();
+            const nftContract = new web3.eth.Contract(MemersNFT.abi, nftNetworkData.address);
+            setNftContract(nftContract);
+
+            const numProposals = await daoContract.methods.numProposals().call();
             setNumProposals(numProposals);
 
             const proposals = [];
             for (let i = 0; i < numProposals; i++) {
-              const proposal = await contract.methods.proposals(i).call();
+              const proposal = await daoContract.methods.proposals(i).call();
               proposals.push(proposal);
             }
             setProposals(proposals);
@@ -53,14 +59,14 @@ function App() {
   }, []);
 
   const createProposal = async () => {
-    if (contract) {
-      await contract.methods.createProposal(proposalDescription).send({ from: account });
-      const numProposals = await contract.methods.numProposals().call();
+    if (daoContract) {
+      await daoContract.methods.createProposal(proposalDescription).send({ from: account });
+      const numProposals = await daoContract.methods.numProposals().call();
       setNumProposals(numProposals);
 
       const proposals = [];
       for (let i = 0; i < numProposals; i++) {
-        const proposal = await contract.methods.proposals(i).call();
+        const proposal = await daoContract.methods.proposals(i).call();
         proposals.push(proposal);
       }
       setProposals(proposals);
@@ -68,14 +74,21 @@ function App() {
   };
 
   const voteOnProposal = async (proposalId, vote) => {
-    if (contract) {
-      await contract.methods.voteOnProposal(proposalId, vote).send({ from: account });
+    if (daoContract) {
+      await daoContract.methods.voteOnProposal(proposalId, vote).send({ from: account });
       const proposals = [];
       for (let i = 0; i < numProposals; i++) {
-        const proposal = await contract.methods.proposals(i).call();
+        const proposal = await daoContract.methods.proposals(i).call();
         proposals.push(proposal);
       }
       setProposals(proposals);
+    }
+  };
+
+  const mintNFT = async () => {
+    if (nftContract) {
+      await nftContract.methods.mint().send({ from: account });
+      window.alert('NFT minted successfully!');
     }
   };
 
@@ -84,19 +97,20 @@ function App() {
       <header className="App-header">
         <p>Account: {account}</p>
         <p>Number of Proposals: {numProposals}</p>
+        <button onClick={mintNFT}>Mint NFT</button>
         <input
           type="text"
           value={proposalDescription}
           onChange={(e) => setProposalDescription(e.target.value)}
-          placeholder="Proposal Description"
+          placeholder="Enter Token_Id e.g: '1' "
         />
         <button onClick={createProposal}>Create Proposal</button>
         <div>
           {proposals.map((proposal, index) => (
             <div key={index}>
               <p>Proposal {index}: {proposal.description}</p>
-              <button onClick={() => voteOnProposal(index, true)}>Vote Yes</button>
-              <button onClick={() => voteOnProposal(index, false)}>Vote No</button>
+              <button onClick={() => voteOnProposal(index, 0)}>Vote Yes</button>
+              <button onClick={() => voteOnProposal(index, 1)}>Vote No</button>
             </div>
           ))}
         </div>
@@ -106,3 +120,10 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+
